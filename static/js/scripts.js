@@ -1,3 +1,5 @@
+const body = document.querySelector("body");
+
 // to run the image animation in every page
 const runScripts = () => {
 	const headers = document.querySelectorAll("h2, h3");
@@ -83,6 +85,16 @@ barba.init({
 			},
 		},
 	],
-	views: [],
+	views: [
+		{
+			namespace: "product",
+			beforeEnter() {
+				body.classList.add("product");
+			},
+			afterLeave() {
+				body.classList.remove("product");
+			},
+		},
+	],
 	debug: false,
 });
