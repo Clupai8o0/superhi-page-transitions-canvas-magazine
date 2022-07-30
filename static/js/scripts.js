@@ -36,23 +36,36 @@ barba.init({
 				return new Promise((resolve) => {
 					const timeline = gsap.timeline({
 						onComplete() {
+							current.container.remove(); // to avoid flicking
 							resolve();
 						},
 					});
 
-					timeline.to("header", { y: "-100%" });
+					timeline
+						.to("header", { y: "-100%" }, 0)
+						.to("footer", { y: "100%" }, 0)
+						.to(current.container, { opacity: 0 });
 				});
 			},
 			enter({ current, next, trigger }) {
 				return new Promise((resolve) => {
+					window.scrollTo({
+						top: 0,
+						behavior: "smooth",
+					});
+
 					const timeline = gsap.timeline({
 						onComplete() {
 							runScripts();
 							resolve();
 						},
 					});
-					
-					timeline.to("header", { y: "0%" });
+
+					timeline
+						.set(next.container, { opacity: 0 })
+						.to("header", { y: "0%" }, 0)
+						.to("footer", { y: "0%" }, 0)
+						.to(next.container, { opacity: 1 });
 				});
 			},
 		},
