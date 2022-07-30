@@ -36,15 +36,17 @@ barba.init({
 			name: "switch",
 			once({ _, next }) {
 				return new Promise((resolve) => {
-					const timeline = gsap.timeline({
-						onComplete() {
-							resolve();
-						},
-					});
+					const images = document.querySelectorAll("img");
+					gsap.set(next.container, { opacity: 0 });
+					imagesLoaded(images, () => {
+						const timeline = gsap.timeline({
+							onComplete() {
+								resolve();
+							},
+						});
 
-					timeline
-						.set(next.container, { opacity: 0 })
-						.to(next.container, { opacity: 1, delay: 1 });
+						timeline.to(next.container, { opacity: 1, delay: 1 });
+					});
 				});
 			},
 			leave({ current }) {
