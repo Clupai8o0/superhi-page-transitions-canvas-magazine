@@ -32,7 +32,20 @@ barba.init({
 	transitions: [
 		{
 			name: "switch",
-			leave({ current, next, trigger }) {
+			once({ _, next }) {
+				return new Promise((resolve) => {
+					const timeline = gsap.timeline({
+						onComplete() {
+							resolve();
+						},
+					});
+
+					timeline
+						.set(next.container, { opacity: 0 })
+						.to(next.container, { opacity: 1, delay: 1 });
+				});
+			},
+			leave({ current }) {
 				return new Promise((resolve) => {
 					const timeline = gsap.timeline({
 						onComplete() {
@@ -47,7 +60,7 @@ barba.init({
 						.to(current.container, { opacity: 0 });
 				});
 			},
-			enter({ current, next, trigger }) {
+			enter({ _, next }) {
 				return new Promise((resolve) => {
 					window.scrollTo({
 						top: 0,
