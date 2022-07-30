@@ -35,6 +35,11 @@ barba.init({
 			leave({ current, next, trigger }) {},
 			enter({ current, next, trigger }) {
 				runScripts();
+
+				return new Promise((resolve) => {
+					// could do setTimeout(resolve, 2000)
+					resolve(); // timer
+				});
 			},
 		},
 	],
