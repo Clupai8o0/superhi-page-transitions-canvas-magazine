@@ -32,13 +32,27 @@ barba.init({
 	transitions: [
 		{
 			name: "switch",
-			leave({ current, next, trigger }) {},
-			enter({ current, next, trigger }) {
-				runScripts();
-
+			leave({ current, next, trigger }) {
 				return new Promise((resolve) => {
-					// could do setTimeout(resolve, 2000)
-					resolve(); // timer
+					const timeline = gsap.timeline({
+						onComplete() {
+							resolve();
+						},
+					});
+
+					timeline.to("header", { y: "-100%" });
+				});
+			},
+			enter({ current, next, trigger }) {
+				return new Promise((resolve) => {
+					const timeline = gsap.timeline({
+						onComplete() {
+							runScripts();
+							resolve();
+						},
+					});
+					
+					timeline.to("header", { y: "0%" });
 				});
 			},
 		},
