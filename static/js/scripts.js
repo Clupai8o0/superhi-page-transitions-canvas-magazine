@@ -22,3 +22,14 @@ headers.forEach((header) => {
 imageHolders.forEach((holder) => {
 	observer.observe(holder);
 });
+
+//* Barba
+barba.init({
+	transitions: [
+		{
+			name: "switch",
+		},
+	],
+	views: [],
+	debug: false,
+});
